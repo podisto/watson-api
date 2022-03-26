@@ -8,4 +8,8 @@ import lombok.Data;
 @Data
 public class WelcomeResponse {
     private boolean response;
+
+    public WelcomeResponse(boolean response) {
+        this.response = response;
+    }
 }

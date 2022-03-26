@@ -19,9 +19,13 @@ public class SpeechToTextService {
         this.speechToText = speechToText;
     }
 
-    public String toText(MultipartFile file) throws IOException {
-        String text = speechToText.toText(file);
-        log.info("text {}", text);
-        return text;
+    public String toText(MultipartFile file) {
+        try {
+            String text = speechToText.toText(file);
+            log.info("text {}", text);
+            return text;
+        } catch (IOException e) {
+            throw new TranslationProcessingException(e);
+        }
     }
 }

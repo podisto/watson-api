@@ -9,12 +9,16 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import static org.springframework.http.HttpMethod.POST;
 
 /**
  * Created by podisto on 26/03/2022.
@@ -23,27 +27,31 @@ import java.io.InputStream;
 @Slf4j
 public class WatsonSpeechToText implements SpeechToTextProvider {
 
-    public static final String API_KEY = "";
-    public static final String URL = "";
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private WatsonProperties properties;
 
     @Override
     public String toText(MultipartFile file) throws IOException {
         InputStream inputStream = file.getInputStream();
         String contentType = getContentType(file);
         log.info("<< ContentType {} >>", contentType);
-        String credentials = getCredentials(API_KEY);
+        String credentials = getCredentials(properties.getSpeechToText().getApiKey());
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + credentials);
         headers.set("Content-Type", contentType);
 
+        String url = UriComponentsBuilder.fromHttpUrl(properties.getSpeechToText().getUrl())
+                .queryParam("model", "fr-FR_Multimedia")
+                .toUriString();
+
         byte[] data = IOUtils.toByteArray(inputStream);
         HttpEntity<byte[]> request = new HttpEntity<>(data, headers);
-        // ResponseEntity<SpeechToTextResponse> response = restTemplate.exchange(URL, HttpMethod.POST, request, SpeechToTextResponse.class);
-        // log.info("Response {}", response.getBody());
-        return null;
+        ResponseEntity<SpeechToTextResponse> response = restTemplate.exchange(url, POST, request, SpeechToTextResponse.class);
+        log.info("Response {}", response.getBody());
+        return response.getBody().getResults().get(0).getAlternatives().get(0).getTranscript();
     }
 
     private String getContentType(MultipartFile file) {
