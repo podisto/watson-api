@@ -8,10 +8,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 /**
  * Created by podisto on 26/03/2022.
  */
@@ -34,11 +30,6 @@ public class TextToSpeechService implements TextToSpeechProvider {
         headers.set("Accept", "audio/mp3");
         HttpEntity<String> request = new HttpEntity<>(text, headers);
         ResponseEntity<byte[]> response = restTemplate.exchange(properties.getTextToSpeech().getUrl(), HttpMethod.POST, request, byte[].class);
-        try {
-            Files.write(Paths.get("data.mp3"), response.getBody());
-        } catch (IOException e) {
-            log.info("Error occurs {}", e.getMessage());
-        }
         return response.getBody();
     }
 

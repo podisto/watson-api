@@ -57,6 +57,7 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
     private String getContentType(MultipartFile file) {
         String filename = file.getOriginalFilename();
         String extension = FilenameUtils.getExtension(filename);
+        log.info("<< extension {} >>", extension);
         return MimeType.getContentType(extension);
     }
 

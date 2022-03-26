@@ -20,11 +20,40 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] requestBody, ClientHttpRequestExecution execution) throws IOException {
-        log.info("Headers {}",request.getHeaders());
+        // log.info("Headers {}",request.getHeaders());
+        // log.info("Request body: {}", new String(requestBody, StandardCharsets.UTF_8));
+        traceRequest(request, requestBody);
         ClientHttpResponse response = execution.execute(request, requestBody);
-        InputStreamReader isr = new InputStreamReader(response.getBody(), StandardCharsets.UTF_8);
-        String body = new BufferedReader(isr).lines().collect(Collectors.joining("\n"));
-        log.info("Response body: {}", body);
+        traceResponse(response);
+        // InputStreamReader isr = new InputStreamReader(response.getBody(), StandardCharsets.UTF_8);
+        // String body = new BufferedReader(isr).lines().collect(Collectors.joining("\n"));
+        // log.info("Response body: {}", body);
         return response;
+    }
+
+    private void traceRequest(HttpRequest request, byte[] body) throws IOException {
+        log.info("===========================request begin================================================");
+        log.debug("URI         : {}", request.getURI());
+        log.debug("Method      : {}", request.getMethod());
+        log.debug("Headers     : {}", request.getHeaders() );
+        log.debug("Request body: {}", new String(body, "UTF-8"));
+        log.info("==========================request end================================================");
+    }
+
+    private void traceResponse(ClientHttpResponse response) throws IOException {
+        StringBuilder inputStringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), "UTF-8"));
+        String line = bufferedReader.readLine();
+        while (line != null) {
+            inputStringBuilder.append(line);
+            inputStringBuilder.append('\n');
+            line = bufferedReader.readLine();
+        }
+        log.info("============================response begin==========================================");
+        log.debug("Status code  : {}", response.getStatusCode());
+        log.debug("Status text  : {}", response.getStatusText());
+        log.debug("Headers      : {}", response.getHeaders());
+        log.debug("Response body: {}", inputStringBuilder.toString());
+        log.info("=======================response end=================================================");
     }
 }
