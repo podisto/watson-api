@@ -23,8 +23,8 @@ import java.io.InputStream;
 @Slf4j
 public class WatsonSpeechToText implements SpeechToTextProvider {
 
-    public static final String API_KEY = "g3zIYUolm2Uz7uM7AubQfLq1CHW1af1E0tScC_YYyLCW";
-    public static final String URL = "https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/a767c987-f49c-4717-98f3-df5a86beef6c/v1/recognize";
+    public static final String API_KEY = "";
+    public static final String URL = "";
     @Autowired
     private RestTemplate restTemplate;
 
