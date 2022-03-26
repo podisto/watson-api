@@ -1,4 +1,4 @@
-package ma.sg.hackathon.watsonapi;
+package ma.sg.hackathon.watsonapi.application;
 
 import org.springframework.web.multipart.MultipartFile;
 

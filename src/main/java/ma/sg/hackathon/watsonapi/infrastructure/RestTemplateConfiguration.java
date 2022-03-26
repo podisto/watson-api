@@ -1,4 +1,4 @@
-package ma.sg.hackathon.watsonapi;
+package ma.sg.hackathon.watsonapi.infrastructure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
