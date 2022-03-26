@@ -2,6 +2,8 @@ package ma.sg.hackathon.watsonapi.application;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 /**
  * Created by podisto on 26/03/2022.
  */
@@ -24,11 +26,10 @@ public enum MimeType {
     }
 
     public static String getContentType(String extension) {
-        for (MimeType type: values()) {
-            if (type.extension.equalsIgnoreCase(extension)) {
-                return type.contentType;
-            }
-        }
-        throw new IllegalArgumentException("Unknown extension " +extension);
+        return Arrays.stream(values())
+                .filter(type -> type.extension.equalsIgnoreCase(extension))
+                .map(MimeType::getContentType)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Unknown extension " + extension));
     }
 }

@@ -7,10 +7,8 @@ import java.io.IOException;
 /**
  * Created by podisto on 26/03/2022.
  */
-public interface AutomaticSpeechRecognition {
+public interface SpeechToTextProvider {
 
     String toText(MultipartFile file) throws IOException;
-
-    MultipartFile toSpeech(String text);
 
 }

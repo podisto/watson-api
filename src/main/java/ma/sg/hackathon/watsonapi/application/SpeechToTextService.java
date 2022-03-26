@@ -13,14 +13,14 @@ import java.io.IOException;
 @Slf4j
 public class SpeechToTextService {
 
-    private final AutomaticSpeechRecognition automaticSpeechRecognition;
+    private final SpeechToTextProvider speechToText;
 
-    public SpeechToTextService(AutomaticSpeechRecognition automaticSpeechRecognition) {
-        this.automaticSpeechRecognition = automaticSpeechRecognition;
+    public SpeechToTextService(SpeechToTextProvider speechToText) {
+        this.speechToText = speechToText;
     }
 
     public String toText(MultipartFile file) throws IOException {
-        String text = automaticSpeechRecognition.toText(file);
+        String text = speechToText.toText(file);
         log.info("text {}", text);
         return text;
     }
