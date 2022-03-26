@@ -17,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 
 import static org.springframework.http.HttpMethod.POST;
 
@@ -58,7 +59,7 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
         String filename = file.getOriginalFilename();
         String extension = FilenameUtils.getExtension(filename);
         log.info("<< extension {} >>", extension);
-        return MimeType.getContentType(extension);
+        return Optional.ofNullable(extension).map(ext -> MimeType.getContentType(extension)).orElseGet(file::getContentType);
     }
 
     private String getCredentials(String apiKey) {
