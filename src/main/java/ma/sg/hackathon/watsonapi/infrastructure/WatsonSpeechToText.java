@@ -56,8 +56,7 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
         String plainCreds = "apiKey:" + apiKey;
         byte[] plainCredsBytes = plainCreds.getBytes();
         byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
-        String base64Creds = new String(base64CredsBytes);
-        return base64Creds;
+        return new String(base64CredsBytes);
     }
 
 }

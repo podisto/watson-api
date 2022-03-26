@@ -1,4 +1,4 @@
-package ma.sg.hackathon.watsonapi.infrastructure;
+package ma.sg.hackathon.watsonapi.infrastructure.api;
 
 import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.SpeechToTextService;
