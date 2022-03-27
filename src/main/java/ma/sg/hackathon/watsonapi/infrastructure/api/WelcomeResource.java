@@ -5,17 +5,14 @@ import ma.sg.hackathon.watsonapi.application.WelcomeService;
 import ma.sg.hackathon.watsonapi.infrastructure.Base64Utils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Base64;
 
 /**
  * Created by podisto on 26/03/2022.
  */
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping
 @Slf4j
 public class WelcomeResource {
 

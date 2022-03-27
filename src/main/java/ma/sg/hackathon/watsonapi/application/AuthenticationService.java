@@ -29,6 +29,7 @@ public class AuthenticationService {
         String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(data, contentType);
+        log.info("<< transcript {} >>", transcript);
         String confirmation = String.format(CONFIRMATION, transcript);
         log.info("<< confirmation: {} >>", confirmation);
         return textToSpeechService.toSpeech(confirmation);

@@ -33,12 +33,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ChoiceNotFoundException.class)
     protected ResponseEntity<Object> handleChoiceNotFoundException(ChoiceNotFoundException ex) throws FileNotFoundException {
         log.info("<< Return fallback audio >>");
-        /*String file = "src/main/resources/fallback.mp3";
-        long length = new File(file).length();
-        InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file));
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentLength(length);
-        httpHeaders.setCacheControl(CacheControl.noCache().getHeaderValue());*/
         byte[] voice = textToSpeechService.toSpeech(FALLBACK_RESPONSE);
         HttpHeaders headers = new HttpHeaders();
         headers.set(CONTENT_DISPOSITION, "attachment; filename=fallback.mp3");
