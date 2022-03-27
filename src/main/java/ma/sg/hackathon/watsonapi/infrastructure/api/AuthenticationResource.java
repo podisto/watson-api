@@ -31,6 +31,13 @@ public class AuthenticationResource {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
     }
 
+    @PostMapping("/confirm-identity")
+    public ResponseEntity<byte[]> confirmIdentity(@RequestBody VoiceRequest voice) {
+        log.info("<< confirm identity >>");
+        authenticationService.confirmIdentity(voice);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody CredentialsRequest credentials) {
         log.info("<< login with identity {} >>", credentials.getIdentity());

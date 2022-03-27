@@ -1,11 +1,10 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.sg.hackathon.watsonapi.infrastructure.Base64Utils;
 import ma.sg.hackathon.watsonapi.infrastructure.api.CredentialsRequest;
 import ma.sg.hackathon.watsonapi.infrastructure.api.VoiceRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
 
 /**
  * Created by podisto on 27/03/2022.
@@ -26,10 +25,8 @@ public class AuthenticationService {
 
     public byte[] checkIdentityNumber(VoiceRequest voice) {
         log.info("<< check identity number >>>>");
-        String base64 = voice.getData();
-        byte[] data = Base64.getDecoder().decode(base64);
-        String[] split = voice.getTag().split(":");
-        String contentType = split.length > 1 ? split[1] : split[0];
+        byte[] data = Base64Utils.toBase64(voice.getData());
+        String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(data, contentType);
         String confirmation = String.format(CONFIRMATION, transcript);
@@ -39,11 +36,17 @@ public class AuthenticationService {
 
     public void login(CredentialsRequest credentials) {
         log.info("<< login >>");
-        String base64 = credentials.getData();
-        byte[] data = Base64.getDecoder().decode(base64);
-        String[] split = credentials.getTag().split(":");
-        String contentType = split.length > 1 ? split[1] : split[0];
+        byte[] data = Base64Utils.toBase64(credentials.getData());
+        String contentType = Base64Utils.getContentTypeFromTag(credentials.getTag());
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(data, contentType);
+    }
+
+    public void confirmIdentity(VoiceRequest voice) {
+        byte[] data = Base64Utils.toBase64(voice.getData());
+        String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
+        log.info("<< content type {} >>", contentType);
+        String transcript = speechToTextService.toText(data, contentType);
+        log.info("<< transcript {} >>", transcript);
     }
 }

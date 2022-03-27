@@ -25,14 +25,13 @@ public class WelcomeDictionary {
         responses.put("NON", NO_KEYWORDS);
     }
 
-    public static boolean getResponse(String text) {
-        String response = responses.entrySet()
+    public static String getResponse(String text) {
+        return responses.entrySet()
                 .stream()
                 .filter(data -> data.getValue().contains(text.trim().toLowerCase()))
                 .map(Map.Entry::getKey)
                 .findFirst()
                 .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " + text));
-        return "OUI".equals(response);
 
     }
 }
