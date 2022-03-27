@@ -13,7 +13,7 @@ public enum MimeType {
     FLAC("flac", "audio/flac"),
     MP3("mp3", "audio/mp3"),
     MPEG("mpeg", "audio/mpeg"),
-    OGG("ogg", "audio/ogg"),
+    OGG("application/ogg", "audio/ogg"),
     WAV("wav", "audio/wav"),
     WEBM("webm", "audio/webm");
 

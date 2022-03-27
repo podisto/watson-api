@@ -9,6 +9,6 @@ import java.io.IOException;
  */
 public interface SpeechToTextProvider {
 
-    String toText(MultipartFile file) throws IOException;
+    String toText(byte[] data) throws IOException;
 
 }

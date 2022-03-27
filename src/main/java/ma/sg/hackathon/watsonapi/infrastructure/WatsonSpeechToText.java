@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.MimeType;
 import ma.sg.hackathon.watsonapi.application.SpeechToTextProvider;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
+import org.apache.tika.Tika;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -15,8 +15,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Optional;
 
 import static org.springframework.http.HttpMethod.POST;
@@ -34,10 +32,11 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
     private WatsonProperties properties;
 
     @Override
-    public String toText(MultipartFile file) throws IOException {
-        InputStream inputStream = file.getInputStream();
-        String contentType = getContentType(file);
-        log.info("<< ContentType {} >>", contentType);
+    public String toText(byte[] data) {
+        Tika tika = new Tika();
+        String extension = tika.detect(data);
+        log.info("<< file type {} >>", extension);
+        String contentType = MimeType.getContentType(extension);
         String credentials = getCredentials(properties.getSpeechToText().getApiKey());
 
         HttpHeaders headers = new HttpHeaders();
@@ -48,7 +47,6 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
                 .queryParam("model", "fr-FR_Multimedia")
                 .toUriString();
 
-        byte[] data = IOUtils.toByteArray(inputStream);
         HttpEntity<byte[]> request = new HttpEntity<>(data, headers);
         ResponseEntity<SpeechToTextResponse> response = restTemplate.exchange(url, POST, request, SpeechToTextResponse.class);
         log.info("Response {}", response.getBody());

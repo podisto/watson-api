@@ -19,9 +19,9 @@ public class SpeechToTextService {
         this.speechToText = speechToText;
     }
 
-    public String toText(MultipartFile file) {
+    public String toText(byte[] data) {
         try {
-            String text = speechToText.toText(file);
+            String text = speechToText.toText(data);
             log.info("text {}", text);
             return text;
         } catch (IOException e) {

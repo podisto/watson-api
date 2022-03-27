@@ -18,8 +18,8 @@ public class WelcomeService {
         this.speechToTextService = speechToTextService;
     }
 
-    public WelcomeResponse toText(MultipartFile file) {
-        String text = speechToTextService.toText(file);
+    public WelcomeResponse toText(byte[] data) {
+        String text = speechToTextService.toText(data);
         boolean response = WelcomeDictionary.getResponse(text);
         return new WelcomeResponse(response);
     }
