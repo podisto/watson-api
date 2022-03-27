@@ -4,10 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.WelcomeService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 
@@ -17,6 +14,7 @@ import java.util.Base64;
 @RestController
 @RequestMapping
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WelcomeRessource {
 
     private final WelcomeService welcomeService;
