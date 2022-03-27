@@ -1,6 +1,7 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.sg.hackathon.watsonapi.infrastructure.TextToSpeech;
 import ma.sg.hackathon.watsonapi.infrastructure.WatsonProperties;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +29,13 @@ public class TextToSpeechService implements TextToSpeechProvider {
         headers.add("Authorization", "Basic " + credentials);
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Accept", "audio/mp3");
-        HttpEntity<String> request = new HttpEntity<>(text, headers);
+        HttpEntity<TextToSpeech> request = new HttpEntity<>(new TextToSpeech(text), headers);
         ResponseEntity<byte[]> response = restTemplate.exchange(properties.getTextToSpeech().getUrl(), HttpMethod.POST, request, byte[].class);
         return response.getBody();
     }
 
     private String getCredentials(String apiKey) {
+        log.info("api key {}", apiKey);
         String plainCreds = "apiKey:" + apiKey;
         byte[] plainCredsBytes = plainCreds.getBytes();
         byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes);
