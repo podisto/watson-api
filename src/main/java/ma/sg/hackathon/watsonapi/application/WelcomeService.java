@@ -29,4 +29,9 @@ public class WelcomeService {
         String text = "Aïcha Prononcez votre identifiant chiffre par chiffre";
         return textToSpeechService.toSpeech(text);
     }
+
+    public byte[] sendGreeting() {
+        String text = "alam aleykoum, ana smiti Aïcha, votre Assistant Société Générale Maroc. Je parle français pour le moment et suis en train d'apprendre l'Arabe. Souhaitez-vous que je vous accompagne pour accéder à vos comptes ?";
+        return textToSpeechService.toSpeech(text);
+    }
 }

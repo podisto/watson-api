@@ -16,13 +16,20 @@ import java.util.Base64;
 @RestController
 @RequestMapping
 @Slf4j
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WelcomeRessource {
 
     private final WelcomeService welcomeService;
 
     public WelcomeRessource(WelcomeService welcomeService) {
         this.welcomeService = welcomeService;
+    }
+
+    @GetMapping("/greetings")
+    public ResponseEntity<byte[]> sendGreeting() {
+        byte[] file = welcomeService.sendGreeting();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "attachment; filename=greetings.mp3");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
     }
 
     @PostMapping(value = "/welcome", consumes = MediaType.APPLICATION_JSON_VALUE)
