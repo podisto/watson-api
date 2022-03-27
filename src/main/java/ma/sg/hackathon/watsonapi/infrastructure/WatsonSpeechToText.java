@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.MimeType;
 import ma.sg.hackathon.watsonapi.application.SpeechToTextProvider;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.tika.Tika;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -32,22 +31,16 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
     private WatsonProperties properties;
 
     @Override
-    public String toText(byte[] data, String contentType) {
-        // Tika tika = new Tika();
-        // String extension = tika.detect(data);
-        // log.info("<< file type {} >>", extension);
-        // String contentType = MimeType.getContentType(extension);
+    public String toText(SpeechToText speechToText) {
         String credentials = getCredentials(properties.getSpeechToText().getApiKey());
-
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + credentials);
-        headers.set("Content-Type", contentType.split(":")[1]);
-
+        // headers.set("Content-Type", contentType.split(":")[1]);
+        headers.set("Content-Type", speechToText.getContentType());
         String url = UriComponentsBuilder.fromHttpUrl(properties.getSpeechToText().getUrl())
                 .queryParam("model", "fr-FR_Multimedia")
                 .toUriString();
-
-        HttpEntity<byte[]> request = new HttpEntity<>(data, headers);
+        HttpEntity<byte[]> request = new HttpEntity<>(speechToText.getData(), headers);
         ResponseEntity<SpeechToTextResponse> response = restTemplate.exchange(url, POST, request, SpeechToTextResponse.class);
         log.info("Response {}", response.getBody());
         return response.getBody().getResults().get(0).getAlternatives().get(0).getTranscript();

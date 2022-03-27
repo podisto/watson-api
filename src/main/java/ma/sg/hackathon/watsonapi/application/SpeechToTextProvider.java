@@ -1,5 +1,7 @@
 package ma.sg.hackathon.watsonapi.application;
 
+import ma.sg.hackathon.watsonapi.infrastructure.SpeechToText;
+
 import java.io.IOException;
 
 /**
@@ -7,6 +9,6 @@ import java.io.IOException;
  */
 public interface SpeechToTextProvider {
 
-    String toText(byte[] data, String contentType) throws IOException;
+    String toText(SpeechToText request);
 
 }
