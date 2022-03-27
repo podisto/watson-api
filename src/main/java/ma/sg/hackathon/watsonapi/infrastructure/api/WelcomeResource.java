@@ -40,7 +40,7 @@ public class WelcomeResource {
         String contentType = Base64Utils.getContentTypeFromTag(request.getTag());
         GreetingAnswerResponse response = welcomeService.toText(data, contentType);
         HttpHeaders headers = new HttpHeaders();
-        headers.set("answer", response.getAnswer());
+        headers.set("Answer", response.getAnswer());
         headers.set(CONTENT_DISPOSITION, "attachment; filename=login.mp3");
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response.getVoice());
     }

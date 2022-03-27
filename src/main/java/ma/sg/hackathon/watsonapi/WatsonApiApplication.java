@@ -19,11 +19,14 @@ public class WatsonApiApplication {
 
 	@Bean
 	public CorsFilter corsFilter() {
-
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.addAllowedOrigin("*");
 		config.addAllowedHeader("*");
+		config.addExposedHeader("Answer");
+		config.addExposedHeader("Id");
+		config.addAllowedHeader("Answer");
+		config.addAllowedHeader("Id");
 		config.addAllowedMethod("OPTIONS");
 		config.addAllowedMethod("HEAD");
 		config.addAllowedMethod("GET");

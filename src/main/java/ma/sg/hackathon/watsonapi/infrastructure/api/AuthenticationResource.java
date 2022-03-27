@@ -29,7 +29,7 @@ public class AuthenticationResource {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccessControlExposeHeaders(asList("Content-Disposition", "id"));
         headers.set("Content-Disposition", "attachment; filename=identity.mp3");
-        headers.set("id", response.getId());
+        headers.set("Id", response.getId());
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response.getVoice());
     }
 
