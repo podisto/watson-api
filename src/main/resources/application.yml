@@ -1,3 +1,8 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 watson:
   speech-to-text:
     url: "https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/a767c987-f49c-4717-98f3-df5a86beef6c/v1/recognize"

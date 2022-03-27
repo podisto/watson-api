@@ -35,7 +35,7 @@ public class WelcomeResource {
 
     // Aicha => oui ou non
     @PostMapping(value = "/greetings-answer")
-    public ResponseEntity<byte[]> answerQuestion(@RequestBody VoiceRequest request) {
+    public ResponseEntity<byte[]> answerQuestion(@RequestBody VoiceRequest request) { // oui non sur le header
         log.info("<< answer to question {} tags {} >>", request.getData(), request.getTag());
         byte[] data = Base64Utils.toBase64(request.getData());
         String contentType = Base64Utils.getContentTypeFromTag(request.getTag());
