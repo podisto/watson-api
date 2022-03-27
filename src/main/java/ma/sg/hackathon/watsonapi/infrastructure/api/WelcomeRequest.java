@@ -8,4 +8,5 @@ import lombok.Data;
 @Data
 public class WelcomeRequest {
     private String data;
+    private String tag;
 }
