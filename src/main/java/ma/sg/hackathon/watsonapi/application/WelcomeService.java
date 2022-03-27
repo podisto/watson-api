@@ -1,8 +1,11 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.sg.hackathon.watsonapi.infrastructure.api.GreetingAnswerResponse;
+import ma.sg.hackathon.watsonapi.infrastructure.api.ApiResponse;
 import org.springframework.stereotype.Service;
+
+import static ma.sg.hackathon.watsonapi.infrastructure.Contants.NO;
+import static ma.sg.hackathon.watsonapi.infrastructure.Contants.YES;
 
 /**
  * Created by podisto on 26/03/2022.
@@ -13,8 +16,6 @@ public class WelcomeService {
 
     public static final String YES_TEXT = "Prononcez votre identifiant chiffre par chiffre.";
     public static final String NO_TEXT = "Parfait, si vous avez besoin de moi, dites Aïcha.";
-    private static final String YES = "yes";
-    private static final String NO = "no";
     private final SpeechToTextService speechToTextService;
     private final TextToSpeechService textToSpeechService;
 
@@ -23,15 +24,15 @@ public class WelcomeService {
         this.textToSpeechService = textToSpeechService;
     }
 
-    public GreetingAnswerResponse toText(byte[] data, String contentType) {
+    public ApiResponse toText(byte[] data, String contentType) {
         String transcript = speechToTextService.toText(data, contentType);
         log.info("<< transcript {} >>", transcript);
         String response = WelcomeDictionary.getResponse(transcript);
         log.info("<< reponse {} >>", response);
         if ("OUI".equalsIgnoreCase(response)) {
-            return new GreetingAnswerResponse(textToSpeechService.toSpeech(YES_TEXT), YES);
+            return new ApiResponse(textToSpeechService.toSpeech(YES_TEXT), YES);
         }
-        return new GreetingAnswerResponse(textToSpeechService.toSpeech(NO_TEXT), NO);
+        return new ApiResponse(textToSpeechService.toSpeech(NO_TEXT), NO);
     }
 
     public byte[] initLogin() {

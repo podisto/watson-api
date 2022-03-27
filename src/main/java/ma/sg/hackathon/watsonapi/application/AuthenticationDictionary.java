@@ -12,6 +12,7 @@ public class AuthenticationDictionary {
 
     static {
         wordToNumber.put("zéro", "0");
+        wordToNumber.put("zalant", "0");
         wordToNumber.put("ziro", "0");
         wordToNumber.put("zero", "0");
         wordToNumber.put("un", "1");
@@ -34,7 +35,6 @@ public class AuthenticationDictionary {
         wordToNumber.put("oui", "8");
         wordToNumber.put("ouite", "8");
         wordToNumber.put("neuf", "9");
-        wordToNumber.put("dix", "10");
     }
 
     public static String getDigitNumber(String text) {

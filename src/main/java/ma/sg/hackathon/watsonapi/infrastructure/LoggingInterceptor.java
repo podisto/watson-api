@@ -6,11 +6,8 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.stream.Collectors;
 
 /**
  * Created by podisto on 26/03/2022.
@@ -20,14 +17,11 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] requestBody, ClientHttpRequestExecution execution) throws IOException {
-        log.info("Headers {}",request.getHeaders());
-        log.info("Request body: {}", new String(requestBody, StandardCharsets.UTF_8));
+        // log.info("Headers {}",request.getHeaders());
+        // log.info("Request body: {}", new String(requestBody, StandardCharsets.UTF_8));
         traceRequest(request, requestBody);
         ClientHttpResponse response = execution.execute(request, requestBody);
         traceResponse(response);
-        // InputStreamReader isr = new InputStreamReader(response.getBody(), StandardCharsets.UTF_8);
-        // String body = new BufferedReader(isr).lines().collect(Collectors.joining("\n"));
-        // log.info("Response body: {}", body);
         return response;
     }
 
@@ -36,8 +30,8 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
         log.info("URI         : {}", request.getURI());
         log.info("Method      : {}", request.getMethod());
         log.info("Headers     : {}", request.getHeaders() );
-        log.info("Request body: {}", new String(body, "UTF-8"));
-        log.info("==========================request end================================================");
+        // log.info("Request body: {}", new String(body, "UTF-8"));
+        log.info("==========================request end================================================\n");
     }
 
     private void traceResponse(ClientHttpResponse response) throws IOException {

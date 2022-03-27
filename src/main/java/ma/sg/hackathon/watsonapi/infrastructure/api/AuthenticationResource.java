@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static java.util.Arrays.asList;
+import static ma.sg.hackathon.watsonapi.infrastructure.Contants.ANSWER;
+import static org.springframework.http.HttpStatus.OK;
 
 /**
  * Created by podisto on 27/03/2022.
@@ -19,33 +20,27 @@ import static java.util.Arrays.asList;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthenticationResource {
 
+    public static final String ID = "Id";
     @Autowired
     private AuthenticationService authenticationService;
 
     @PostMapping("/check-identity")
     public ResponseEntity<byte[]> checkIdentityNumber(@RequestBody VoiceRequest voice) {
-        log.info("<< identity number data: {}, tags: {} >>", voice.getData(), voice.getTag());
+        log.info("<< identity number tags: {} >>", voice.getTag());
         CheckIdentityNumberResponse response = authenticationService.checkIdentityNumber(voice);
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccessControlExposeHeaders(asList("Content-Disposition", "id"));
         headers.set("Content-Disposition", "attachment; filename=identity.mp3");
-        headers.set("Id", response.getId());
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response.getVoice());
-    }
-
-    @PostMapping("/confirm-identity")
-    public ResponseEntity<byte[]> confirmIdentity(@RequestBody VoiceRequest voice) {
-        log.info("<< confirm identity >>");
-        byte[] file = authenticationService.confirmIdentity(voice);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Disposition", "attachment; filename=confirm_identity.mp3");
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
+        headers.set(ID, response.getId());
+        return ResponseEntity.status(OK).headers(headers).body(response.getVoice());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody CredentialsRequest credentials) {
-        log.info("<< login with identity {} >>", credentials.getIdentity());
-        authenticationService.login(credentials);
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<byte[]> login(@RequestHeader(ID) String userId, @RequestBody VoiceRequest voice) {
+        log.info("<< login with userId {} >>", userId);
+        ApiResponse response = authenticationService.login(userId, voice);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "attachment; filename=identity.mp3");
+        headers.set(ANSWER, response.getAnswer());
+        return ResponseEntity.status(OK).headers(headers).body(response.getVoice());
     }
 }

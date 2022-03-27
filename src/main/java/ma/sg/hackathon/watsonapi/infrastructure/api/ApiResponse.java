@@ -6,11 +6,11 @@ import lombok.Data;
  * Created by podisto on 27/03/2022.
  */
 @Data
-public class GreetingAnswerResponse {
+public class ApiResponse {
     private byte[] voice;
     private String answer;
 
-    public GreetingAnswerResponse(byte[] voice, String answer) {
+    public ApiResponse(byte[] voice, String answer) {
         this.voice = voice;
         this.answer = answer;
     }
