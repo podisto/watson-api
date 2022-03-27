@@ -33,16 +33,16 @@ public class WelcomeResource {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
     }
 
-    // Aicha => oui ou non
     @PostMapping(value = "/greetings-answer")
     public ResponseEntity<byte[]> answerQuestion(@RequestBody VoiceRequest request) { // oui non sur le header
         log.info("<< answer to question {} tags {} >>", request.getData(), request.getTag());
         byte[] data = Base64Utils.toBase64(request.getData());
         String contentType = Base64Utils.getContentTypeFromTag(request.getTag());
-        byte[] voice = welcomeService.toText(data, contentType);
+        GreetingAnswerResponse response = welcomeService.toText(data, contentType);
         HttpHeaders headers = new HttpHeaders();
+        headers.set("answer", response.getAnswer());
         headers.set(CONTENT_DISPOSITION, "attachment; filename=login.mp3");
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(voice);
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response.getVoice());
     }
 
     @GetMapping("/init-login")

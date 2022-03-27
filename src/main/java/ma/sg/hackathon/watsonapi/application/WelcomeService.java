@@ -1,6 +1,7 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.sg.hackathon.watsonapi.infrastructure.api.GreetingAnswerResponse;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,8 +11,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class WelcomeService {
 
-    public static final String YES = "Prononcez votre identifiant chiffre par chiffre.";
-    public static final String NO = "Parfait, si vous avez besoin de moi, dites Aïcha.";
+    public static final String YES_TEXT = "Prononcez votre identifiant chiffre par chiffre.";
+    public static final String NO_TEXT = "Parfait, si vous avez besoin de moi, dites Aïcha.";
+    private static final String YES = "yes";
+    private static final String NO = "no";
     private final SpeechToTextService speechToTextService;
     private final TextToSpeechService textToSpeechService;
 
@@ -20,15 +23,15 @@ public class WelcomeService {
         this.textToSpeechService = textToSpeechService;
     }
 
-    public byte[] toText(byte[] data, String contentType) {
+    public GreetingAnswerResponse toText(byte[] data, String contentType) {
         String transcript = speechToTextService.toText(data, contentType);
         log.info("<< transcript {} >>", transcript);
         String response = WelcomeDictionary.getResponse(transcript);
         log.info("<< reponse {} >>", response);
         if ("OUI".equalsIgnoreCase(response)) {
-            return  textToSpeechService.toSpeech(YES);
+            return new GreetingAnswerResponse(textToSpeechService.toSpeech(YES_TEXT), YES);
         }
-        return textToSpeechService.toSpeech(NO);
+        return new GreetingAnswerResponse(textToSpeechService.toSpeech(NO_TEXT), NO);
     }
 
     public byte[] initLogin() {
