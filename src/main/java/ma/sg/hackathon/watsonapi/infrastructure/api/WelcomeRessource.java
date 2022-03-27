@@ -2,8 +2,12 @@ package ma.sg.hackathon.watsonapi.infrastructure.api;
 
 import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.WelcomeService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
 
@@ -21,7 +25,7 @@ public class WelcomeRessource {
         this.welcomeService = welcomeService;
     }
 
-    @PostMapping("/welcome")
+    @PostMapping(value = "/welcome", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<WelcomeResponse> welcome(@RequestBody WelcomeRequest request) {
         log.info("<< welcome {} >>", request.getData());
         String encoded = request.getData();

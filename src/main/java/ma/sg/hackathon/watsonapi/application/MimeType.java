@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Getter
 public enum MimeType {
 
-    FLAC("flac", "audio/flac"),
+    FLAC("audio/x-flac", "audio/flac"),
     MP3("mp3", "audio/mp3"),
     MPEG("mpeg", "audio/mpeg"),
     OGG("application/ogg", "audio/ogg"),
