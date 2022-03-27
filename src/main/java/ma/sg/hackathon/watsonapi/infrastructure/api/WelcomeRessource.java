@@ -2,6 +2,8 @@ package ma.sg.hackathon.watsonapi.infrastructure.api;
 
 import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.WelcomeService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +32,13 @@ public class WelcomeRessource {
         byte[] data = Base64.getDecoder().decode(encoded);
         WelcomeResponse welcomeResponse = welcomeService.toText(data, request.getTag());
         return ResponseEntity.ok(welcomeResponse);
+    }
+
+    @GetMapping("/init-login")
+    public ResponseEntity<byte[]> init() {
+        byte[] file = welcomeService.initLogin();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "attachment; filename=initlogin.mp3");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
     }
 }

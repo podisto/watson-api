@@ -12,14 +12,21 @@ import org.springframework.stereotype.Service;
 public class WelcomeService {
 
     private final SpeechToTextService speechToTextService;
+    private final TextToSpeechService textToSpeechService;
 
-    public WelcomeService(SpeechToTextService speechToTextService) {
+    public WelcomeService(SpeechToTextService speechToTextService, TextToSpeechService textToSpeechService) {
         this.speechToTextService = speechToTextService;
+        this.textToSpeechService = textToSpeechService;
     }
 
     public WelcomeResponse toText(byte[] data, String contentType) {
         String text = speechToTextService.toText(data, contentType.split(":")[1]);
         boolean response = WelcomeDictionary.getResponse(text);
         return new WelcomeResponse(response);
+    }
+
+    public byte[] initLogin() {
+        String text = "Aïcha Prononcez votre identifiant chiffre par chiffre";
+        return textToSpeechService.toSpeech(text);
     }
 }
