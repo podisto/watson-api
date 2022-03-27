@@ -1,41 +1,48 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import static java.util.Arrays.asList;
 
 /**
  * Created by podisto on 27/03/2022.
  */
 public class AuthenticationDictionary {
 
-    private static final Map<String, List<String>> responses = new HashMap<>();
-
-    private static final List<String> YES_KEYWORDS = asList("oui", "effectivement", "wé", "ouais", "c'est ça", "c'est bien ça", "oui aïcha", "effectivement aïcha", "c'est ça aïcha");
-    private static final Map<String, Integer> wordToNumber = new HashMap<>();
+    private static final Map<String, String> wordToNumber = new HashMap<>();
 
     static {
-        responses.put("OUI", YES_KEYWORDS);
-        wordToNumber.put("0", 1);
-        wordToNumber.put("1", 1);
-        wordToNumber.put("2", 1);
-        wordToNumber.put("3", 1);
-        wordToNumber.put("4", 1);
-        wordToNumber.put("5", 1);
-        wordToNumber.put("6", 1);
-        wordToNumber.put("7", 1);
-        wordToNumber.put("8", 1);
-        wordToNumber.put("un", 1);
+        wordToNumber.put("zéro", "0");
+        wordToNumber.put("ziro", "0");
+        wordToNumber.put("zero", "0");
+        wordToNumber.put("un", "1");
+        wordToNumber.put("deux", "2");
+        wordToNumber.put("deu", "2");
+        wordToNumber.put("trois", "3");
+        wordToNumber.put("troi", "3");
+        wordToNumber.put("quatre", "4");
+        wordToNumber.put("quate", "4");
+        wordToNumber.put("quaat", "4");
+        wordToNumber.put("cinq", "5");
+        wordToNumber.put("six", "6");
+        wordToNumber.put("sisse", "6");
+        wordToNumber.put("sis", "6");
+        wordToNumber.put("sept", "7");
+        wordToNumber.put("sét", "7");
+        wordToNumber.put("set", "7");
+        wordToNumber.put("sette", "7");
+        wordToNumber.put("huit", "8");
+        wordToNumber.put("oui", "8");
+        wordToNumber.put("ouite", "8");
+        wordToNumber.put("neuf", "9");
+        wordToNumber.put("dix", "10");
     }
 
-    public static String getResponse(String text) {
-        return responses.entrySet()
+    public static String getDigitNumber(String text) {
+        return wordToNumber.entrySet()
                 .stream()
-                .filter(data -> data.getValue().contains(text.trim().toLowerCase()))
-                .map(Map.Entry::getKey)
+                .filter(data -> data.getKey().contains(text.trim().toLowerCase()))
+                .map(Map.Entry::getValue)
                 .findFirst()
-                .orElse("NON");
+                .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " +text));
     }
 }

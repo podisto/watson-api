@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static java.util.Arrays.asList;
+
 /**
  * Created by podisto on 27/03/2022.
  */
@@ -23,10 +25,12 @@ public class AuthenticationResource {
     @PostMapping("/check-identity")
     public ResponseEntity<byte[]> checkIdentityNumber(@RequestBody VoiceRequest voice) {
         log.info("<< identity number data: {}, tags: {} >>", voice.getData(), voice.getTag());
-        byte[] file = authenticationService.checkIdentityNumber(voice);
+        CheckIdentityNumberResponse response = authenticationService.checkIdentityNumber(voice);
         HttpHeaders headers = new HttpHeaders();
+        headers.setAccessControlExposeHeaders(asList("Content-Disposition", "id"));
         headers.set("Content-Disposition", "attachment; filename=identity.mp3");
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
+        headers.set("id", response.getId());
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response.getVoice());
     }
 
     @PostMapping("/confirm-identity")
