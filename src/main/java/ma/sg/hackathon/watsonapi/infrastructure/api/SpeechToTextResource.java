@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by podisto on 26/03/2022.
@@ -20,7 +19,7 @@ public class SpeechToTextResource {
     private SpeechToTextService speechToTextService;
 
     @PostMapping
-    public ResponseEntity<String> toText(@RequestBody WelcomeRequest request) {
+    public ResponseEntity<String> toText(@RequestBody VoiceRequest request) {
         log.info("Transcript to text");
         try {
             //speechToTextService.toText(file);

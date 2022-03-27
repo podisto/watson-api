@@ -24,7 +24,7 @@ public class WelcomeRessource {
     }
 
     @PostMapping(value = "/welcome", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<WelcomeResponse> welcome(@RequestBody WelcomeRequest request) {
+    public ResponseEntity<WelcomeResponse> welcome(@RequestBody VoiceRequest request) {
         log.info("<< welcome {} tags {} >>", request.getData(), request.getTag());
         String encoded = request.getData();
         byte[] data = Base64.getDecoder().decode(encoded);

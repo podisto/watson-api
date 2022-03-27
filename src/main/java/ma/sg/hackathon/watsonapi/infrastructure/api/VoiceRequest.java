@@ -6,7 +6,7 @@ import lombok.Data;
  * Created by podisto on 27/03/2022.
  */
 @Data
-public class WelcomeRequest {
+public class VoiceRequest {
     private String data;
     private String tag;
 }

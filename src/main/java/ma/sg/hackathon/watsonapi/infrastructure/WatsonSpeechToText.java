@@ -14,7 +14,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpMethod.POST;
 
@@ -35,7 +37,6 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
         String credentials = getCredentials(properties.getSpeechToText().getApiKey());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + credentials);
-        // headers.set("Content-Type", contentType.split(":")[1]);
         headers.set("Content-Type", speechToText.getContentType());
         String url = UriComponentsBuilder.fromHttpUrl(properties.getSpeechToText().getUrl())
                 .queryParam("model", "fr-FR_Multimedia")
@@ -43,7 +44,15 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
         HttpEntity<byte[]> request = new HttpEntity<>(speechToText.getData(), headers);
         ResponseEntity<SpeechToTextResponse> response = restTemplate.exchange(url, POST, request, SpeechToTextResponse.class);
         log.info("Response {}", response.getBody());
-        return response.getBody().getResults().get(0).getAlternatives().get(0).getTranscript();
+        String transcript = response.getBody().getResults()
+                .stream()
+                .map(Result::getAlternatives)
+                .flatMap(List::stream)
+                .map(alternative -> alternative.getTranscript().trim())
+                .collect(Collectors.joining(" "))
+                .trim();
+        log.info("<< transcript {} >>", transcript);
+        return transcript;
     }
 
     private String getContentType(MultipartFile file) {
