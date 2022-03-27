@@ -41,7 +41,7 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + credentials);
-        headers.set("Content-Type", contentType);
+        headers.set("Content-Type", contentType.split(":")[1]);
 
         String url = UriComponentsBuilder.fromHttpUrl(properties.getSpeechToText().getUrl())
                 .queryParam("model", "fr-FR_Multimedia")
