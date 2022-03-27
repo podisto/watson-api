@@ -34,8 +34,10 @@ public class AuthenticationResource {
     @PostMapping("/confirm-identity")
     public ResponseEntity<byte[]> confirmIdentity(@RequestBody VoiceRequest voice) {
         log.info("<< confirm identity >>");
-        authenticationService.confirmIdentity(voice);
-        return ResponseEntity.ok().build();
+        byte[] file = authenticationService.confirmIdentity(voice);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "attachment; filename=confirm_identity.mp3");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(file);
     }
 
     @PostMapping("/login")

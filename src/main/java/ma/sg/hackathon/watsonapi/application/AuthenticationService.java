@@ -35,6 +35,22 @@ public class AuthenticationService {
         return textToSpeechService.toSpeech(confirmation);
     }
 
+    public byte[] confirmIdentity(VoiceRequest voice) {
+        byte[] data = Base64Utils.toBase64(voice.getData());
+        String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
+        log.info("<< content type {} >>", contentType);
+        String transcript = speechToTextService.toText(data, contentType);
+        log.info("<< transcript {} >>", transcript);
+        String response = AuthenticationDictionary.getResponse(transcript);
+        if ("OUI".equalsIgnoreCase(response)) {
+            String text = "Meziene, maintenant dites moi votre mot de passe lettre par lettre en précisant majuscules et minuscules et en vous assurant de l'absence d'oreilles indiscrètes";
+            return textToSpeechService.toSpeech(text);
+        } else {
+            String text = "Prononcez à nouveau votre identifiant chiffre par chiffre";
+            return textToSpeechService.toSpeech(text);
+        }
+    }
+
     public void login(CredentialsRequest credentials) {
         log.info("<< login >>");
         byte[] data = Base64Utils.toBase64(credentials.getData());
@@ -43,11 +59,4 @@ public class AuthenticationService {
         String transcript = speechToTextService.toText(data, contentType);
     }
 
-    public void confirmIdentity(VoiceRequest voice) {
-        byte[] data = Base64Utils.toBase64(voice.getData());
-        String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
-        log.info("<< content type {} >>", contentType);
-        String transcript = speechToTextService.toText(data, contentType);
-        log.info("<< transcript {} >>", transcript);
-    }
 }
