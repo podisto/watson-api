@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WelcomeResource {
 
     public static final String CONTENT_DISPOSITION = "Content-Disposition";

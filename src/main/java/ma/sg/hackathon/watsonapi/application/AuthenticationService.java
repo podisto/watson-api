@@ -57,6 +57,7 @@ public class AuthenticationService {
         String contentType = Base64Utils.getContentTypeFromTag(credentials.getTag());
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(data, contentType);
+        log.info("<< transcript {} >>", transcript);
     }
 
 }
