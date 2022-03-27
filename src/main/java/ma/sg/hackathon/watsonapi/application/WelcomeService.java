@@ -1,6 +1,7 @@
 package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
+import ma.sg.hackathon.watsonapi.infrastructure.api.WelcomeRequest;
 import ma.sg.hackathon.watsonapi.infrastructure.api.WelcomeResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,8 +19,8 @@ public class WelcomeService {
         this.speechToTextService = speechToTextService;
     }
 
-    public WelcomeResponse toText(byte[] data) {
-        String text = speechToTextService.toText(data);
+    public WelcomeResponse toText(byte[] data, String contentType) {
+        String text = speechToTextService.toText(data, contentType);
         boolean response = WelcomeDictionary.getResponse(text);
         return new WelcomeResponse(response);
     }

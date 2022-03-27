@@ -28,7 +28,7 @@ public class WelcomeRessource {
         log.info("<< welcome {} tags {} >>", request.getData(), request.getTag());
         String encoded = request.getData();
         byte[] data = Base64.getDecoder().decode(encoded);
-        WelcomeResponse welcomeResponse = welcomeService.toText(data);
+        WelcomeResponse welcomeResponse = welcomeService.toText(data, request.getTag());
         return ResponseEntity.ok(welcomeResponse);
     }
 }

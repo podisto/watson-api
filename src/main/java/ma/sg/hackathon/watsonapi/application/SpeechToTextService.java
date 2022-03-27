@@ -19,9 +19,9 @@ public class SpeechToTextService {
         this.speechToText = speechToText;
     }
 
-    public String toText(byte[] data) {
+    public String toText(byte[] data, String contentType) {
         try {
-            String text = speechToText.toText(data);
+            String text = speechToText.toText(data, contentType);
             log.info("text {}", text);
             return text;
         } catch (IOException e) {

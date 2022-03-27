@@ -32,11 +32,11 @@ public class WatsonSpeechToText implements SpeechToTextProvider {
     private WatsonProperties properties;
 
     @Override
-    public String toText(byte[] data) {
-        Tika tika = new Tika();
-        String extension = tika.detect(data);
-        log.info("<< file type {} >>", extension);
-        String contentType = MimeType.getContentType(extension);
+    public String toText(byte[] data, String contentType) {
+        // Tika tika = new Tika();
+        // String extension = tika.detect(data);
+        // log.info("<< file type {} >>", extension);
+        // String contentType = MimeType.getContentType(extension);
         String credentials = getCredentials(properties.getSpeechToText().getApiKey());
 
         HttpHeaders headers = new HttpHeaders();
