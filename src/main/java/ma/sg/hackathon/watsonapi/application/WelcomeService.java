@@ -15,7 +15,7 @@ import static ma.sg.hackathon.watsonapi.infrastructure.Constants.YES;
 public class WelcomeService {
 
     public static final String YES_TEXT = "Prononcez votre identifiant chiffre par chiffre.";
-    public static final String NO_TEXT = "Parfait, si vous avez besoin de moi, dites Aïcha.";
+    public static final String NO_TEXT = "Parfait, si vous avez besoin de moi, prononcez dis Aïcha.";
     private final SpeechToTextService speechToTextService;
     private final TextToSpeechService textToSpeechService;
 
