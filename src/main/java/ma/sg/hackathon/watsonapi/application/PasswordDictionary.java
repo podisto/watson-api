@@ -52,6 +52,8 @@ public class PasswordDictionary {
         wordToNumber.put("neuf", "9");
 
         mapAlphabet.put("ah", "A");
+        mapAlphabet.put("ha", "A");
+        mapAlphabet.put("À", "A");
         mapAlphabet.put("est-ce", "S");
 
         specialCharacters.put("donne-moi", "$");
