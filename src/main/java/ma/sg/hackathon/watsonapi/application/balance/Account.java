@@ -1,4 +1,4 @@
-package ma.sg.hackathon.watsonapi.application;
+package ma.sg.hackathon.watsonapi.application.balance;
 
 import lombok.Data;
 

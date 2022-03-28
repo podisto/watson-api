@@ -1,9 +1,8 @@
 package ma.sg.hackathon.watsonapi.infrastructure;
 
-import ma.sg.hackathon.watsonapi.application.Account;
+import ma.sg.hackathon.watsonapi.application.balance.Account;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;

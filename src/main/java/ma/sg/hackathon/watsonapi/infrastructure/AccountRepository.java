@@ -1,6 +1,6 @@
 package ma.sg.hackathon.watsonapi.infrastructure;
 
-import ma.sg.hackathon.watsonapi.application.Account;
+import ma.sg.hackathon.watsonapi.application.balance.Account;
 
 import java.util.List;
 
