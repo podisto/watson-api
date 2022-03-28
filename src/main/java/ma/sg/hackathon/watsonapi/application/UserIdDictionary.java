@@ -1,12 +1,14 @@
 package ma.sg.hackathon.watsonapi.application;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * Created by podisto on 27/03/2022.
+ * Created by podisto on 28/03/2022.
  */
-public class AuthenticationDictionary {
+public class UserIdDictionary {
 
     private static final Map<String, String> wordToNumber = new HashMap<>();
 
@@ -37,12 +39,20 @@ public class AuthenticationDictionary {
         wordToNumber.put("neuf", "9");
     }
 
-    public static String getDigitNumber(String text) {
+    public static String getIdentityNumber(String transcript) {
+        return Arrays.stream(transcript.split(" "))
+                .map(UserIdDictionary::getDigitNumberFromWordLetter)
+                .collect(Collectors.joining(" "))
+                .trim()
+                .replaceAll("\\s+", "");
+    }
+
+    private static String getDigitNumberFromWordLetter(String word) {
         return wordToNumber.entrySet()
                 .stream()
-                .filter(data -> data.getKey().contains(text.trim().toLowerCase()))
+                .filter(data -> data.getKey().contains(word.trim().toLowerCase()))
                 .map(Map.Entry::getValue)
                 .findFirst()
-                .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " +text));
+                .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " + word));
     }
 }

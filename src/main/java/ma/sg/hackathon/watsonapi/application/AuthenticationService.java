@@ -8,9 +8,6 @@ import ma.sg.hackathon.watsonapi.infrastructure.api.CheckIdentityNumberResponse;
 import ma.sg.hackathon.watsonapi.infrastructure.api.VoiceRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 import static ma.sg.hackathon.watsonapi.infrastructure.Contants.NO;
 import static ma.sg.hackathon.watsonapi.infrastructure.Contants.YES;
 
@@ -22,7 +19,6 @@ import static ma.sg.hackathon.watsonapi.infrastructure.Contants.YES;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    private static final String CONFIRMATION = "Si j'ai bien entendu votre identifiant est le %s, c'est bien cela ?";
     public static final String WELCOME = "Marhaba, vous êtes sur votre espace connecté Société Générale Maroc. Que souhaitez-vous faire ?";
     private static final String ERROR_LOGIN = "Identifiant ou mot de passe incorrect.";
 
@@ -32,57 +28,36 @@ public class AuthenticationService {
 
     public CheckIdentityNumberResponse checkIdentityNumber(VoiceRequest voice) {
         log.info("<< check identity number >>>>");
-        byte[] data = Base64Utils.toBase64(voice.getData());
+        byte[] data = getBytes(voice.getData());
         String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(data, contentType);
         log.info("<< transcript: {} >>", transcript);
-        String id = Arrays.stream(transcript.split(" "))
-                .map(AuthenticationDictionary::getDigitNumber)
-                .collect(Collectors.joining(" "))
-                .trim()
-                .replaceAll("\\s+", "");
+        String id = UserIdDictionary.getIdentityNumber(transcript);
         log.info("<< id {} >>", id);
         String text = "Meziene, maintenant dites moi votre mot de passe lettre par lettre en précisant majuscules et minuscules et en vous assurant de l'absence d'oreilles indiscrètes";
         byte[] bytes = textToSpeechService.toSpeech(text);
         return new CheckIdentityNumberResponse(bytes, id);
     }
 
-    public byte[] confirmIdentity(VoiceRequest voice) {
-        byte[] data = Base64Utils.toBase64(voice.getData());
-        String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
-        log.info("<< content type {} >>", contentType);
-        String transcript = speechToTextService.toText(data, contentType);
-        log.info("<< transcript: {} >>", transcript);
-        String response = AuthenticationDictionary.getDigitNumber(transcript);
-        if ("OUI".equalsIgnoreCase(response)) {
-            String text = "Meziene, maintenant dites moi votre mot de passe lettre par lettre en précisant majuscules et minuscules et en vous assurant de l'absence d'oreilles indiscrètes";
-            return textToSpeechService.toSpeech(text);
-        } else {
-            String text = "Prononcez à nouveau votre identifiant chiffre par chiffre";
-            return textToSpeechService.toSpeech(text);
-        }
-    }
-
     public ApiResponse login(String userId, VoiceRequest voice) {
         log.info("<< login >>");
-        byte[] data = Base64Utils.toBase64(voice.getData());
         String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
         log.info("<< content type {} >>", contentType);
-        String transcript = speechToTextService.toText(data, contentType);
+        String transcript = speechToTextService.toText(getBytes(voice.getData()), contentType);
         log.info("<< transcript: {} >>", transcript);
+        String password = PasswordDictionary.getPassword(transcript);
         // TODO login with userId and Password
-        String password = Arrays.stream(transcript.split(" "))
-                .map(AuthenticationDictionary::getDigitNumber)
-                .collect(Collectors.joining(" "))
-                .trim()
-                .replaceAll("\\s+", "");
         log.info("<< password {} >>", password);
         boolean isAuthenticated = authenticationGateway.authenticate(userId, password);
         String message = isAuthenticated ? WELCOME : ERROR_LOGIN;
         byte[] bytes = textToSpeechService.toSpeech(message);
         String answer = isAuthenticated ? YES : NO;
         return new ApiResponse(bytes, answer);
+    }
+
+    private byte[] getBytes(String encoded) {
+        return Base64Utils.toBase64(encoded);
     }
 
 }
