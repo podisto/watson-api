@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface AccountRepository {
 
-    List<Account> byAccountNumber(String customerNumber);
+    List<Account> byUserId(String userId);
 }

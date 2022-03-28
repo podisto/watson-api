@@ -20,6 +20,6 @@ public class AccountService {
 
     public void getBalance(String customerNumber, VoiceRequest voice) {
         log.info("<< get balance for {} >>", customerNumber);
-        List<Account> accounts = accountRepository.byAccountNumber(customerNumber);
+        List<Account> accounts = accountRepository.byUserId(customerNumber);
     }
 }

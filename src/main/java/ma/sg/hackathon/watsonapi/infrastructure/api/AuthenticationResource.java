@@ -40,6 +40,7 @@ public class AuthenticationResource {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Disposition", "attachment; filename=identity.mp3");
         headers.set(ANSWER, response.getAnswer());
+        headers.set(ID, userId);
         return ResponseEntity.status(OK).headers(headers).body(response.getVoice());
     }
 }

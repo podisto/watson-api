@@ -1,9 +1,11 @@
 package ma.sg.hackathon.watsonapi.infrastructure;
 
+import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.Account;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Arrays.asList;
 
@@ -11,15 +13,21 @@ import static java.util.Arrays.asList;
  * Created by podisto on 27/03/2022.
  */
 @Component
+@Slf4j
 public class InMemoryAccountRepository implements AccountRepository {
 
-    private List<Account> accounts = asList(
-            new Account("comptes cheques ordinaires", "C", 20000, "012015789"),
-            new Account("comptes cheques ordinaires", "C", 20000, "012015789")
+    private final List<Account> accounts = asList(
+            new Account("0144144", "comptes cheques ordinaires", "C", 20000, "012015789"),
+            new Account("1206202", "comptes cheques ordinaires", "C", 20000, "012015789"),
+            new Account("1206202", "comptes cheques ordinaires", "C", 20000, "012015789")
     );
 
     @Override
-    public List<Account> byAccountNumber(String customerNumber) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    public List<Account> byUserId(String userId) {
+        log.info("<< find accounts for {} >>", userId);
+        return accounts.stream()
+                .filter(a -> a.getUserId().equals(userId))
+                .collect(Collectors.toList());
     }
+
 }

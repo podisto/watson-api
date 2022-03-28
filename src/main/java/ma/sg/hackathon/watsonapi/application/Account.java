@@ -7,12 +7,14 @@ import lombok.Data;
  */
 @Data
 public class Account {
+    private final String userId;
     private final String type;
     private final String category;
-    private final int balance;
+    private final double balance;
     private final String number;
 
-    public Account(String type, String category, int balance, String number) {
+    public Account(String userId, String type, String category, double balance, String number) {
+        this.userId = userId;
         this.type = type;
         this.category = category;
         this.balance = balance;
