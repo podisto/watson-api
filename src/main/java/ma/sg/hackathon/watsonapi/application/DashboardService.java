@@ -43,7 +43,7 @@ public class DashboardService {
             answer = "consultation_solde";
             List<Account> accounts = accountRepository.byUserId(userId);
             if (accounts.size() == 1) {
-                String text = String.format("Votre solde est de %s, souhaitez-vous savoir autre chose ?", accounts.get(0).getBalance());
+                String text = String.format("Votre solde est de %s dirhams, souhaitez-vous savoir autre chose ?", accounts.get(0).getBalance());
                 data = textToSpeechService.toSpeech(text);
             } else {
                 String text = String.format("Avec plaisir, vous avez %s comptes quel compte vous intéresse ?", accounts.size());
