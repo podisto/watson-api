@@ -41,14 +41,13 @@ public class AuthenticationService {
     }
 
     public ApiResponse login(String userId, VoiceRequest voice) {
-        log.info("<< login >>");
+        log.info("<< login user with Id: {}>>", userId);
         String contentType = Base64Utils.getContentTypeFromTag(voice.getTag());
-        log.info("<< content type {} >>", contentType);
+        log.info("<< content type: {} >>", contentType);
         String transcript = speechToTextService.toText(getBytes(voice.getData()), contentType);
         log.info("<< transcript: {} >>", transcript);
         String password = PasswordDictionary.sanitizePassword(transcript);
-        // TODO login with userId and Password
-        log.info("<< password {} >>", password);
+        log.info("<< password: {} >>", password);
         boolean isAuthenticated = authenticationGateway.authenticate(userId, password);
         String message = isAuthenticated ? WELCOME : ERROR_LOGIN;
         byte[] bytes = textToSpeechService.toSpeech(message);

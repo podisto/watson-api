@@ -20,7 +20,7 @@ public class SpeechToTextService {
     public String toText(byte[] data, String contentType) {
         SpeechToText speechToText = new SpeechToText(data, contentType);
         String text = speechToTextProvider.toText(speechToText);
-        log.info("text {}", text);
+        log.info("text: {}", text);
         return text;
     }
 }

@@ -14,7 +14,8 @@ public class FakeAuthenticationGateway implements AuthenticationGateway {
 
     private final List<User> users = asList(
             new User("0144144", "123456Saf"),
-            new User("0987654", "123"),
+            new User("2356789", "0789&@$*%"),
+            new User("1101199", "0789$@&*%"),
             new User("1101198", "09123456"),
             new User("0967543", "123456Aa"),
             new User("1206202", "passer@123")

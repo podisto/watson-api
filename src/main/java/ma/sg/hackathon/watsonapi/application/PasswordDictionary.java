@@ -21,7 +21,8 @@ public class PasswordDictionary {
     public static final String REGEX_SPACE = " ";
     private static final List<String> lowerCases = asList("minuscule", "menuscule", "minescule");
     // private static final List<String> alphabet = asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
-    private static Map<String, String> mapAlphabet = new HashMap<>();
+    private static final Map<String, String> mapAlphabet = new HashMap<>();
+    private static final Map<String, String> specialCharacters = new HashMap<>();
 
     static {
         wordToNumber.put("zéro", "0");
@@ -53,10 +54,28 @@ public class PasswordDictionary {
 
         mapAlphabet.put("ah", "A");
         mapAlphabet.put("est-ce", "S");
+
+        specialCharacters.put("donne-moi", "$");
+        specialCharacters.put("dallar", "$");
+        specialCharacters.put("dollar", "$");
+        specialCharacters.put("aérobase", "@");
+        specialCharacters.put("arobase", "@");
+        specialCharacters.put("aerobase", "@");
+        specialCharacters.put("e-commerciale", "&");
+        specialCharacters.put("eux-commerciales", "&");
+        specialCharacters.put("eux-commercial", "&");
+        specialCharacters.put("e-commercial", "&");
+        specialCharacters.put("étoiles", "*");
+        specialCharacters.put("étoile", "*");
+        specialCharacters.put("et-toi", "*");
+        specialCharacters.put("pourcentage", "%");
+        specialCharacters.put("pour-son-tâche", "%");
+        specialCharacters.put("pour-son-tache", "%");
     }
 
     public static String sanitizePassword(String transcriptedPassword) {
-        String correct = setCorrectAlphabetLetter(transcriptedPassword);
+        String specialCharacter = handleSpecialCharacters(transcriptedPassword);
+        String correct = setCorrectAlphabetLetter(specialCharacter);
         String transformWordToMajusculeAndMinuscule = transformWordToMajusculeAndMinuscule(correct);
         return replaceWordNumberWithDigitNumber(transformWordToMajusculeAndMinuscule);
     }
@@ -70,7 +89,7 @@ public class PasswordDictionary {
                 .replaceAll("\\s+", "");
     }
 
-    private static String transformWordToMajusculeAndMinuscule(String transcript) {
+    public static String transformWordToMajusculeAndMinuscule(String transcript) {
         log.info("<< password voice {} >>", transcript);
         String[] words = transcript.split(REGEX_SPACE);
         for (int i = 0; i < words.length; i++) {
@@ -86,10 +105,10 @@ public class PasswordDictionary {
         return String.join(REGEX_SPACE, words);
     }
 
-    private static String replaceWordNumberWithDigitNumber(String word) {
+    public static String replaceWordNumberWithDigitNumber(String word) {
         log.info("<< word {} >>", word);
         String[] array = word.split(REGEX_SPACE);
-        for (int i= 0; i < array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             try {
                 int intValue = Integer.parseInt(wordToNumber.get(array[i]));
                 array[i] = String.valueOf(intValue);
@@ -107,19 +126,60 @@ public class PasswordDictionary {
                 .filter(data -> data.getKey().contains(text.trim().toLowerCase()))
                 .map(Map.Entry::getValue)
                 .findFirst()
-                .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " +text));
+                .orElseThrow(() -> new ChoiceNotFoundException("Unable to process your request " + text));
     }
 
-    private static String setCorrectAlphabetLetter(String text) {
+    public static String setCorrectAlphabetLetter(String text) {
         String[] array = text.split(REGEX_SPACE);
-        for (int i= 0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             for (Map.Entry<String, String> entry : mapAlphabet.entrySet())
                 if (entry.getKey().equalsIgnoreCase(array[i])) {
-                    String found = mapAlphabet.get(array[i]);
-                    array[i] = found;
+                    array[i] = mapAlphabet.get(array[i]);
                 }
         }
         return String.join(REGEX_SPACE, array);
 
+    }
+
+    public static String handleSpecialCharacters(String transcripted) {
+        String[] array = transcripted.split(REGEX_SPACE);
+
+        for (int i = 0; i < array.length; i++) {
+            if ("et".equalsIgnoreCase(array[i])) {
+                array[i] = array[i] + "-" + array[i + 1];
+                array = ArrayUtils.remove(array, i + 1);
+            }
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            if ("donne".equalsIgnoreCase(array[i])) {
+                array[i] = array[i] + "-" + array[i + 1];
+                array = ArrayUtils.remove(array, i + 1);
+            }
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            if ("eux".equalsIgnoreCase(array[i]) || "e".equalsIgnoreCase(array[i])) {
+                array[i] = array[i] + "-" + array[i + 1];
+                array = ArrayUtils.remove(array, i + 1);
+            }
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            if ("pour".equalsIgnoreCase(array[i])) {
+                array[i] = array[i] + "-" + array[i + 1] + "-" + array[i + 2];
+                array = ArrayUtils.remove(array, i + 1);
+                array = ArrayUtils.remove(array, i + 1);
+            }
+        }
+
+        for (int i = 0; i < array.length; i++) {
+            for (Map.Entry<String, String> entry : specialCharacters.entrySet()) {
+                if (entry.getKey().equalsIgnoreCase(array[i])) {
+                    array[i] = specialCharacters.get(array[i]);
+                }
+            }
+        }
+        return String.join(REGEX_SPACE, array);
     }
 }
