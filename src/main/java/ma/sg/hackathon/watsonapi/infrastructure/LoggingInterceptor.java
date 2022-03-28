@@ -30,7 +30,7 @@ public class LoggingInterceptor implements ClientHttpRequestInterceptor {
         log.info("URI         : {}", request.getURI());
         log.info("Method      : {}", request.getMethod());
         log.info("Headers     : {}", request.getHeaders() );
-        // log.info("Request body: {}", new String(body, "UTF-8"));
+        log.info("Request body: {}", new String(body, "UTF-8"));
         log.info("==========================request end================================================\n");
     }
 

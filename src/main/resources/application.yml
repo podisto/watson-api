@@ -8,5 +8,5 @@ watson:
     url: "https://api.eu-de.speech-to-text.watson.cloud.ibm.com/instances/a767c987-f49c-4717-98f3-df5a86beef6c/v1/recognize"
     api-key: "g3zIYUolm2Uz7uM7AubQfLq1CHW1af1E0tScC_YYyLCW"
   text-to-speech:
-    url: "https://api.eu-de.text-to-speech.watson.cloud.ibm.com/instances/effe053c-f02a-4a39-8339-d6d181ef71fe/v1/synthesize?voice=fr-CA_LouiseV3Voice"
-    api-key: "t1y_W2RrHFmv-gl0Xb4KuOXqcqO3LNBYgnbSVwRStSe5"
+    url: "https://api.eu-gb.text-to-speech.watson.cloud.ibm.com/instances/dec181e2-5303-4d31-a428-fa066b55b967/v1/synthesize?voice=fr-CA_LouiseV3Voice"
+    api-key: "Z1qBDaFeMLrVpz0ScvR-JV1rC82No62ETpqsz3A8hlsB"

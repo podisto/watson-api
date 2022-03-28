@@ -46,7 +46,7 @@ public class AuthenticationService {
         log.info("<< content type {} >>", contentType);
         String transcript = speechToTextService.toText(getBytes(voice.getData()), contentType);
         log.info("<< transcript: {} >>", transcript);
-        String password = PasswordDictionary.getPassword(transcript);
+        String password = PasswordDictionary.sanitizePassword(transcript);
         // TODO login with userId and Password
         log.info("<< password {} >>", password);
         boolean isAuthenticated = authenticationGateway.authenticate(userId, password);

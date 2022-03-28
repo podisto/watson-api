@@ -23,7 +23,7 @@ public class TextToSpeechService implements TextToSpeechProvider {
 
     @Override
     public byte[] toSpeech(String text) {
-        log.info("<< Data to transcribe to audio {} >>", text);
+        log.info("<< Data to transcribe to audio: {} >>", text);
         String credentials = getCredentials(properties.getTextToSpeech().getApiKey());
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Basic " + credentials);
