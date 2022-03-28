@@ -20,7 +20,6 @@ public class PasswordDictionary {
     private static final Map<String, String> wordToNumber = new HashMap<>();
     public static final String REGEX_SPACE = " ";
     private static final List<String> lowerCases = asList("minuscule", "menuscule", "minescule");
-    // private static final List<String> alphabet = asList("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z");
     private static final Map<String, String> mapAlphabet = new HashMap<>();
     private static final Map<String, String> specialCharacters = new HashMap<>();
 
