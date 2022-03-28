@@ -57,12 +57,14 @@ public class TransactionDictionary {
     private static final List<String> balancesKeywords = asList(
             "solde", "soldes", "solde actuel", "solde aujourd'hui", "je veux accéder à mes soldes", "je veux accéder à mon solde",
             "je veux consulter mon solde", "je veux accéder aux soldes", "je veux accéder au solde", "je veux voir mon solde",
-            "je veux voir mes soldes", "consulter solde", "accéder solde", "entendre solde", "savoir solde"
+            "je veux voir mes soldes", "consulter solde", "accéder solde", "entendre solde", "savoir solde", "je veux consulter mes comptes",
+            "je veux accéder à mon compte", "contes", "je veux voir mon compte", "je peux voir mes comptes", "consulter compte", "accéder compte",
+            "solde compte", "solde actuelle", "solde actuel", "solde aujourdhui", "j'veux voir mes soldes", "consulter soldes", ""
     );
 
     static {
         responses.put("TRANSACTION", transactionKeywords);
-        responses.put("CONSULTATION_SOLDE", transactionKeywords);
+        responses.put("CONSULTATION_SOLDE", balancesKeywords);
     }
 
     public static String getResponse(String transcript) {
