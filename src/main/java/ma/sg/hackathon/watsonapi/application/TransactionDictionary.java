@@ -60,7 +60,7 @@ public class TransactionDictionary {
             "je veux voir mes soldes", "consulter solde", "accéder solde", "entendre solde", "savoir solde", "je veux consulter mes comptes",
             "je veux accéder à mon compte", "contes", "je veux voir mon compte", "je peux voir mes comptes", "consulter compte", "accéder compte",
             "solde compte", "solde actuelle", "solde actuel", "solde aujourdhui", "j'veux voir mes soldes", "consulter soldes", "saunt", "voir solde",
-            "je veux connaitre mon solde"
+            "je veux connaitre mon solde", "connaitre mon solde"
     );
 
     static {
