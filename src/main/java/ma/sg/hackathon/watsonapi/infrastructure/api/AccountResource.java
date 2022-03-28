@@ -1,7 +1,7 @@
 package ma.sg.hackathon.watsonapi.infrastructure.api;
 
 import lombok.extern.slf4j.Slf4j;
-import ma.sg.hackathon.watsonapi.application.balance.AccountService;
+import ma.sg.hackathon.watsonapi.application.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -3,7 +3,7 @@ package ma.sg.hackathon.watsonapi.infrastructure;
 /**
  * Created by podisto on 27/03/2022.
  */
-public class Contants {
+public class Constants {
 
     public static final String YES = "yes";
     public static final String NO = "no";

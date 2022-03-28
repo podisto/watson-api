@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static ma.sg.hackathon.watsonapi.infrastructure.Contants.ANSWER;
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.ANSWER;
 
 /**
  * Created by podisto on 26/03/2022.

@@ -1,8 +1,7 @@
-package ma.sg.hackathon.watsonapi.application.balance;
+package ma.sg.hackathon.watsonapi.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.sg.hackathon.watsonapi.application.balance.Account;
 import ma.sg.hackathon.watsonapi.infrastructure.AccountRepository;
 import ma.sg.hackathon.watsonapi.infrastructure.api.VoiceRequest;
 import org.springframework.stereotype.Service;

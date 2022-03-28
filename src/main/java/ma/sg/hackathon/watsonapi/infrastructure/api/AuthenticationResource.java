@@ -4,11 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.application.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static ma.sg.hackathon.watsonapi.infrastructure.Contants.ANSWER;
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.ANSWER;
 import static org.springframework.http.HttpStatus.OK;
 
 /**

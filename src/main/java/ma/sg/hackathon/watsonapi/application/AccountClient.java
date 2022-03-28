@@ -1,4 +1,4 @@
-package ma.sg.hackathon.watsonapi.application.balance;
+package ma.sg.hackathon.watsonapi.application;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

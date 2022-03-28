@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import ma.sg.hackathon.watsonapi.infrastructure.api.ApiResponse;
 import org.springframework.stereotype.Service;
 
-import static ma.sg.hackathon.watsonapi.infrastructure.Contants.NO;
-import static ma.sg.hackathon.watsonapi.infrastructure.Contants.YES;
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.NO;
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.YES;
 
 /**
  * Created by podisto on 26/03/2022.
