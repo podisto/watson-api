@@ -18,8 +18,8 @@ public class InMemoryAccountRepository implements AccountRepository {
 
     private final List<Account> accounts = asList(
             new Account("0144144", "comptes cheques ordinaires", "C", 13293.83, "012015789"),
-            new Account("1206202", "comptes cheques ordinaires", "C", 20000, "012015789"),
-            new Account("1206202", "comptes cheques ordinaires", "C", 20000, "012015789")
+            new Account("0123123", "comptes cheques ordinaires", "C", 20000, "012015789"),
+            new Account("0123123", "comptes cheques ordinaires", "C", 20000, "012015789")
     );
 
     @Override
