@@ -8,6 +8,8 @@ import ma.sg.hackathon.watsonapi.infrastructure.api.ApiResponse;
 import ma.sg.hackathon.watsonapi.infrastructure.api.VoiceRequest;
 import org.springframework.stereotype.Service;
 
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.FALLBACK_RESPONSE;
+
 /**
  * Created by podisto on 28/03/2022.
  */
@@ -16,9 +18,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DashboardService {
 
-    public static final String NOT_AVAILABLE = "Pour des raisons de sécurité, il n'est pas encore possible de faire ces opérations sur le Web, cependant je vous invite à télécharger l'Appli Société Générale Maroc où vous pourrez faire ces opérations.";
-    private static final String YES = Constants.YES;
     private static final String NO = Constants.NO;
+    public static final String CONSULTATION_SOLDE = "CONSULTATION_SOLDE";
+    private static final String UNKNOWN = "UNKNOWN";
 
     private final TextToSpeechService textToSpeechService;
     private final SpeechToTextService speechToTextService;
@@ -32,14 +34,26 @@ public class DashboardService {
         String response = TransactionDictionary.getResponse(transcript);
         log.info("<< response: {} >>", response);
         String answer;
-        if ("TRANSACTION".equalsIgnoreCase(response)) {
-            answer = NOT_AVAILABLE;
-        } else if ("CONSULTATION_SOLDE".equalsIgnoreCase(response)) {
-            answer = YES;
+        byte[] data = null;
+        if (isTransaction(response)) {
+            answer = "NOT_AVAILABLE";
+            String text = "Pour des raisons de sécurité, il n'est pas encore possible de faire ces opérations sur le Web, cependant je vous invite à télécharger l'Appli Société Générale Maroc où vous pourrez faire ces opérations.";
+            data = textToSpeechService.toSpeech(text);
+        } else if (isBalance(response)) {
+            answer = CONSULTATION_SOLDE;
+            // vérifier si le client a un seul compte et retourner le solde sinon demander de choisir le compte
         } else {
-            answer = NO;
+            answer = UNKNOWN;
+            data = textToSpeechService.toSpeech(FALLBACK_RESPONSE);
         }
-        // byte[] toSpeech = textToSpeechService.toSpeech(TRANSACTION_NOT_AVAILABLE);
-        return new ApiResponse(null, answer);
+        return new ApiResponse(data, answer);
+    }
+
+    private boolean isBalance(String response) {
+        return CONSULTATION_SOLDE.equalsIgnoreCase(response);
+    }
+
+    private boolean isTransaction(String response) {
+        return "TRANSACTION".equalsIgnoreCase(response);
     }
 }

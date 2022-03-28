@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.io.FileNotFoundException;
 
+import static ma.sg.hackathon.watsonapi.infrastructure.Constants.FALLBACK_RESPONSE;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 
 /**
@@ -24,8 +25,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 @ControllerAdvice
 @Slf4j
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private static final String FALLBACK_RESPONSE = "Je n'ai pas encore la réponse à votre question, vous pouvez soit contacter notre Service Relations clients au 42 42 ou votre conseiller";
 
     @Autowired
     private TextToSpeechService textToSpeechService;
