@@ -19,7 +19,7 @@ import static ma.sg.hackathon.watsonapi.infrastructure.Constants.YES;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    public static final String WELCOME = "Marha baa, vous êtes sur votre espace connecté Société Générale Maroc. Que souhaitez-vous faire ?";
+    public static final String WELCOME = "Marha ba, vous êtes sur votre espace connecté Société Générale Maroc. Que souhaitez-vous faire ?";
     private static final String ERROR_LOGIN = "Identifiant ou mot de passe incorrect.";
 
     private final SpeechToTextService speechToTextService;
@@ -35,7 +35,7 @@ public class AuthenticationService {
         log.info("<< transcript: {} >>", transcript);
         String id = UserIdDictionary.getIdentityNumber(transcript);
         log.info("<< id {} >>", id);
-        String text = "Meziene, maintenant dites moi votre mot de passe lettre par lettre en précisant majuscules et minuscules et en vous assurant de l'absence d'oreilles indiscrètes";
+        String text = "Mézières, maintenant dites moi votre mot de passe lettre par lettre en précisant majuscules et minuscules et en vous assurant de l'absence d'oreilles indiscrètes";
         byte[] bytes = textToSpeechService.toSpeech(text);
         return new CheckIdentityNumberResponse(bytes, id);
     }
