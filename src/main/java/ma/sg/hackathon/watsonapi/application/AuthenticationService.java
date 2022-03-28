@@ -19,7 +19,7 @@ import static ma.sg.hackathon.watsonapi.infrastructure.Constants.YES;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-    public static final String WELCOME = "Marhaba, vous êtes sur votre espace connecté Société Générale Maroc. Que souhaitez-vous faire ?";
+    public static final String WELCOME = "Marha baa, vous êtes sur votre espace connecté Société Générale Maroc. Que souhaitez-vous faire ?";
     private static final String ERROR_LOGIN = "Identifiant ou mot de passe incorrect.";
 
     private final SpeechToTextService speechToTextService;
